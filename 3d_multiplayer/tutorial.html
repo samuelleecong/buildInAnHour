@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal System Prerequisites - Interactive Tutorial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #1e40af;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #3b82f6;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+        }
+
+        .concept-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .visual-box {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        canvas {
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            display: block;
+            margin: 20px auto;
+            background: #000;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .code-block .comment {
+            color: #64748b;
+        }
+
+        .code-block .keyword {
+            color: #f472b6;
+        }
+
+        .code-block .string {
+            color: #86efac;
+        }
+
+        .code-block .function {
+            color: #60a5fa;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .highlight-box strong {
+            color: #b45309;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .comparison {
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .comparison.good {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+        }
+
+        .comparison.bad {
+            background: #fee2e2;
+            border: 2px solid #ef4444;
+        }
+
+        .comparison h4 {
+            margin-bottom: 10px;
+        }
+
+        .good h4::before {
+            content: "✅ ";
+        }
+
+        .bad h4::before {
+            content: "❌ ";
+        }
+
+        .interactive-demo {
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .coordinate-system {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            background: radial-gradient(circle, #1e293b 0%, #0f172a 100%);
+            border-radius: 10px;
+            border: 2px solid #3b82f6;
+        }
+
+        .axis {
+            position: absolute;
+            transform-origin: 0 0;
+        }
+
+        .axis-label {
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .vector-demo {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            margin: 20px auto;
+            background: #1e293b;
+            border-radius: 10px;
+            border: 2px solid #3b82f6;
+        }
+
+        .shader-preview {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f59e0b, #10b981);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .shader-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -32px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 16px;
+            width: 2px;
+            height: calc(100% - 16px);
+            background: #e5e7eb;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .portal-preview {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background: radial-gradient(circle at center,
+                transparent 0%,
+                rgba(102, 126, 234, 0.3) 40%,
+                rgba(118, 75, 162, 0.8) 70%,
+                rgba(118, 75, 162, 1) 100%);
+            animation: portalPulse 2s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 60px rgba(102, 126, 234, 0.6);
+        }
+
+        @keyframes portalPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .portal-preview::before {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%,
+                rgba(255, 255, 255, 0.4) 0%,
+                transparent 50%);
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            margin: 40px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .key-takeaway {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        .key-takeaway h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .key-takeaway ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .key-takeaway li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .key-takeaway li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px 0;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            z-index: 1000;
+            transition: width 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="container">
+        <header>
+            <h1>🌀 Portal System Prerequisites</h1>
+            <p>Everything you need to know before building a 3D portal teleportation system</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">Interactive Tutorial for Junior Engineers</p>
+        </header>
+
+        <div class="content">
+            <!-- SECTION 1: 3D COORDINATE SYSTEMS -->
+            <div class="section" id="section-1">
+                <h2>
+                    <span class="concept-number">1</span>
+                    Understanding 3D Space & Coordinates
+                </h2>
+
+                <p>Before we can teleport anything, we need to understand how position works in 3D space. Think of it like giving directions to a drone that can move in any direction.</p>
+
+                <h3>The Three Axes</h3>
+
+                <div class="visual-box">
+                    <canvas id="coordinateCanvas" width="600" height="400"></canvas>
+                    <div class="interactive-demo">
+                        <p><strong>3D Coordinate System</strong></p>
+                        <p>In Three.js, every object has a position defined by three numbers:</p>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div style="background: #fee2e2; padding: 20px; border-radius: 8px; border-left: 4px solid #ef4444;">
+                        <h4 style="color: #991b1b; margin-bottom: 10px;">🔴 X-Axis (Red)</h4>
+                        <p><strong>Left ↔ Right</strong></p>
+                        <p>Negative X = Left<br>Positive X = Right</p>
+                    </div>
+                    <div style="background: #dcfce7; padding: 20px; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <h4 style="color: #065f46; margin-bottom: 10px;">🟢 Y-Axis (Green)</h4>
+                        <p><strong>Down ↔ Up</strong></p>
+                        <p>Negative Y = Down<br>Positive Y = Up</p>
+                    </div>
+                </div>
+
+                <div style="background: #dbeafe; padding: 20px; border-radius: 8px; border-left: 4px solid #3b82f6; margin-top: 20px;">
+                    <h4 style="color: #1e40af; margin-bottom: 10px;">🔵 Z-Axis (Blue)</h4>
+                    <p><strong>Back ↔ Forward</strong></p>
+                    <p>Negative Z = Away from you<br>Positive Z = Toward you</p>
+                </div>
+
+                <div class="code-block">
+<span class="comment">// Example: Placing a portal in 3D space</span>
+<span class="keyword">const</span> portalPosition = [
+  <span class="string">5</span>,    <span class="comment">// X: 5 units to the right</span>
+  <span class="string">2</span>,    <span class="comment">// Y: 2 units up</span>
+  <span class="string">-10</span>   <span class="comment">// Z: 10 units away from camera</span>
+];
+
+<span class="comment">// In React Three Fiber:</span>
+&lt;mesh <span class="keyword">position</span>={[<span class="string">5, 2, -10</span>]}&gt;
+  &lt;sphereGeometry /&gt;
+&lt;/mesh&gt;
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> When you walk through a portal, we need to calculate your NEW position in 3D space. If you're at position [5, 0, -10] and enter a portal, we need to figure out where you'll appear on the other side.
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>Every object in 3D has an [X, Y, Z] position</li>
+                        <li>X = horizontal (left/right)</li>
+                        <li>Y = vertical (up/down)</li>
+                        <li>Z = depth (forward/back)</li>
+                        <li>Position [0, 0, 0] is the "origin" - the center of your world</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 2: VECTORS -->
+            <div class="section" id="section-2">
+                <h2>
+                    <span class="concept-number">2</span>
+                    Vectors: Direction & Distance
+                </h2>
+
+                <p>A <strong>vector</strong> is like an arrow. It has a direction and a length. We use vectors to represent movement, direction, and calculate distances.</p>
+
+                <div class="visual-box">
+                    <canvas id="vectorCanvas" width="600" height="400"></canvas>
+                    <div class="interactive-demo">
+                        <button onclick="addRandomVector()">Add Random Vector</button>
+                        <button onclick="clearVectors()">Clear Vectors</button>
+                        <p id="vectorInfo">Click "Add Random Vector" to see vectors in action!</p>
+                    </div>
+                </div>
+
+                <h3>Vector Operations You'll Use</h3>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 style="color: #3b82f6;">1. Distance Between Two Points</h4>
+                        <div class="code-block">
+<span class="comment">// Calculate distance from player to portal</span>
+<span class="keyword">const</span> playerPos = <span class="keyword">new</span> <span class="function">Vector3</span>(<span class="string">1, 0, 5</span>);
+<span class="keyword">const</span> portalPos = <span class="keyword">new</span> <span class="function">Vector3</span>(<span class="string">10, 0, 5</span>);
+
+<span class="keyword">const</span> distance = playerPos.<span class="function">distanceTo</span>(portalPos);
+<span class="comment">// distance = 9 (units)</span>
+                        </div>
+                        <p><strong>Why?</strong> We need to know if the player is close enough to trigger teleportation (< 2 meters from portal center).</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #3b82f6;">2. Direction From A to B</h4>
+                        <div class="code-block">
+<span class="comment">// Which way is the portal from the player?</span>
+<span class="keyword">const</span> direction = <span class="keyword">new</span> <span class="function">Vector3</span>();
+direction.<span class="function">subVectors</span>(portalPos, playerPos); <span class="comment">// portal - player</span>
+direction.<span class="function">normalize</span>(); <span class="comment">// Make length = 1</span>
+
+<span class="comment">// Now 'direction' is a unit vector pointing toward the portal</span>
+                        </div>
+                        <p><strong>Why?</strong> We need to know which direction you're approaching the portal from to calculate the teleport correctly.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #3b82f6;">3. Moving Objects</h4>
+                        <div class="code-block">
+<span class="comment">// Move player forward by velocity vector</span>
+<span class="keyword">const</span> velocity = <span class="keyword">new</span> <span class="function">Vector3</span>(<span class="string">0, 0, -0.1</span>); <span class="comment">// Moving backward</span>
+playerPos.<span class="function">add</span>(velocity); <span class="comment">// Update position</span>
+
+<span class="comment">// This happens every frame to create movement</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> When you teleport, we need to:
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Calculate distance to detect collision</li>
+                        <li>Preserve your movement direction through the portal</li>
+                        <li>Calculate your relative position to the portal</li>
+                    </ul>
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>Vectors represent direction AND magnitude (length)</li>
+                        <li>distanceTo() tells you how far apart two points are</li>
+                        <li>subVectors() gives you the direction from A to B</li>
+                        <li>normalize() makes a vector length = 1 (useful for pure direction)</li>
+                        <li>add() and sub() let you move objects by vectors</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 3: REACT THREE FIBER BASICS -->
+            <div class="section" id="section-3">
+                <h2>
+                    <span class="concept-number">3</span>
+                    React Three Fiber: JSX for 3D
+                </h2>
+
+                <p>React Three Fiber (R3F) lets you create Three.js scenes using React components. Instead of imperative JavaScript, you write declarative JSX.</p>
+
+                <h3>Traditional Three.js vs React Three Fiber</h3>
+
+                <div class="grid-2">
+                    <div class="comparison bad">
+                        <h4>Traditional Three.js (Verbose)</h4>
+                        <div class="code-block" style="font-size: 0.8em;">
+<span class="keyword">const</span> scene = <span class="keyword">new</span> <span class="function">THREE.Scene</span>();
+<span class="keyword">const</span> camera = <span class="keyword">new</span> <span class="function">THREE.PerspectiveCamera</span>();
+<span class="keyword">const</span> renderer = <span class="keyword">new</span> <span class="function">THREE.WebGLRenderer</span>();
+
+<span class="keyword">const</span> geometry = <span class="keyword">new</span> <span class="function">THREE.BoxGeometry</span>(<span class="string">1,1,1</span>);
+<span class="keyword">const</span> material = <span class="keyword">new</span> <span class="function">THREE.MeshStandardMaterial</span>({
+  color: <span class="string">0xff0000</span>
+});
+<span class="keyword">const</span> cube = <span class="keyword">new</span> <span class="function">THREE.Mesh</span>(geometry, material);
+
+scene.<span class="function">add</span>(cube);
+
+<span class="keyword">function</span> <span class="function">animate</span>() {
+  <span class="function">requestAnimationFrame</span>(animate);
+  cube.rotation.x += <span class="string">0.01</span>;
+  renderer.<span class="function">render</span>(scene, camera);
+}
+<span class="function">animate</span>();
+                        </div>
+                    </div>
+
+                    <div class="comparison good">
+                        <h4>React Three Fiber (Clean)</h4>
+                        <div class="code-block" style="font-size: 0.8em;">
+&lt;<span class="keyword">Canvas</span>&gt;
+  &lt;<span class="keyword">mesh</span>&gt;
+    &lt;<span class="keyword">boxGeometry</span> /&gt;
+    &lt;<span class="keyword">meshStandardMaterial</span>
+      color=<span class="string">"red"</span> /&gt;
+  &lt;/<span class="keyword">mesh</span>&gt;
+&lt;/<span class="keyword">Canvas</span>&gt;
+
+<span class="comment">// Rotation with useFrame hook:</span>
+<span class="keyword">function</span> <span class="function">RotatingBox</span>() {
+  <span class="keyword">const</span> ref = <span class="function">useRef</span>();
+
+  <span class="function">useFrame</span>(() =&gt; {
+    ref.current.rotation.x += <span class="string">0.01</span>;
+  });
+
+  <span class="keyword">return</span> (
+    &lt;<span class="keyword">mesh</span> ref={ref}&gt;
+      &lt;<span class="keyword">boxGeometry</span> /&gt;
+      &lt;<span class="keyword">meshStandardMaterial</span> /&gt;
+    &lt;/<span class="keyword">mesh</span>&gt;
+  );
+}
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Core R3F Concepts</h3>
+
+                <div class="visual-box">
+                    <h4>1. The Canvas Component</h4>
+                    <p>This is your 3D world. Everything 3D goes inside it.</p>
+                    <div class="code-block">
+&lt;<span class="keyword">Canvas</span>&gt;
+  <span class="comment">{/* All your 3D stuff goes here */}</span>
+  &lt;<span class="keyword">ambientLight</span> /&gt;
+  &lt;<span class="keyword">Portal</span> position={[<span class="string">0, 0, -5</span>]} /&gt;
+  &lt;<span class="keyword">Player</span> /&gt;
+&lt;/<span class="keyword">Canvas</span>&gt;
+                    </div>
+                </div>
+
+                <div class="visual-box">
+                    <h4>2. The useFrame Hook</h4>
+                    <p>Runs code every frame (60 times per second). Use for animations and game logic.</p>
+                    <div class="code-block">
+<span class="keyword">import</span> { useFrame } <span class="keyword">from</span> <span class="string">'@react-three/fiber'</span>;
+
+<span class="keyword">function</span> <span class="function">Portal</span>() {
+  <span class="keyword">const</span> shaderRef = <span class="function">useRef</span>();
+
+  <span class="comment">// ⚡ This runs every frame!</span>
+  <span class="function">useFrame</span>((<span class="keyword">state</span>) =&gt; {
+    <span class="comment">// state.clock.elapsedTime = seconds since start</span>
+    shaderRef.current.uniforms.time.value = state.clock.elapsedTime;
+  });
+
+  <span class="keyword">return</span> &lt;<span class="keyword">mesh</span>&gt;...&lt;/<span class="keyword">mesh</span>&gt;;
+}
+                    </div>
+                    <p style="margin-top: 15px; color: #991b1b; font-weight: bold;">⚠️ NEVER call setState() inside useFrame! It's too slow. Mutate refs directly instead.</p>
+                </div>
+
+                <div class="visual-box">
+                    <h4>3. Refs for Direct Access</h4>
+                    <p>Get direct access to Three.js objects for performance-critical updates.</p>
+                    <div class="code-block">
+<span class="keyword">const</span> portalRef = <span class="function">useRef</span>();
+
+<span class="function">useFrame</span>(() =&gt; {
+  <span class="comment">// Direct mutation - FAST ✅</span>
+  portalRef.current.rotation.y += <span class="string">0.01</span>;
+
+  <span class="comment">// DON'T do this - SLOW ❌</span>
+  <span class="comment">// setRotation(prev => prev + 0.01);</span>
+});
+
+<span class="keyword">return</span> &lt;<span class="keyword">mesh</span> ref={portalRef}&gt;...&lt;/<span class="keyword">mesh</span>&gt;;
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> Your portal shader will use useFrame to animate the swirling effect. Teleportation detection will also run in useFrame to check player distance every frame.
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>&lt;Canvas&gt; wraps your entire 3D scene</li>
+                        <li>Three.js classes become JSX tags: &lt;mesh&gt;, &lt;boxGeometry&gt;, etc.</li>
+                        <li>useFrame() runs code every frame (for animations)</li>
+                        <li>Use refs + direct mutation for performance</li>
+                        <li>Never setState() in useFrame - too slow!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 4: SHADERS -->
+            <div class="section" id="section-4">
+                <h2>
+                    <span class="concept-number">4</span>
+                    Shaders: GPU Magic for Visuals
+                </h2>
+
+                <p>Shaders are small programs that run on your GPU (graphics card) to control how things look. They're written in GLSL (OpenGL Shading Language), which looks like C.</p>
+
+                <div class="shader-preview">
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; z-index: 10;">
+                        <h3 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">This Is What Shaders Create</h3>
+                        <p style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Animated, dynamic visual effects</p>
+                    </div>
+                </div>
+
+                <h3>Two Types of Shaders</h3>
+
+                <div class="grid-2">
+                    <div style="background: #fef3c7; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <h4 style="color: #92400e;">📐 Vertex Shader</h4>
+                        <p><strong>Runs for each vertex (corner point) of your geometry</strong></p>
+                        <p style="margin-top: 10px;">Job: Position vertices in 3D space</p>
+                        <div class="code-block" style="margin-top: 15px; font-size: 0.75em;">
+<span class="comment">// Vertex Shader Example</span>
+<span class="keyword">void</span> <span class="function">main</span>() {
+  <span class="comment">// Pass position to fragment shader</span>
+  vUv = uv;
+
+  <span class="comment">// Calculate final position</span>
+  gl_Position = projectionMatrix
+    * modelViewMatrix
+    * vec4(position, <span class="string">1.0</span>);
+}
+                        </div>
+                    </div>
+
+                    <div style="background: #dbeafe; padding: 20px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                        <h4 style="color: #1e3a8a;">🎨 Fragment Shader</h4>
+                        <p><strong>Runs for each pixel on the screen</strong></p>
+                        <p style="margin-top: 10px;">Job: Determine color of each pixel</p>
+                        <div class="code-block" style="margin-top: 15px; font-size: 0.75em;">
+<span class="comment">// Fragment Shader Example</span>
+<span class="keyword">uniform float</span> time;
+
+<span class="keyword">void</span> <span class="function">main</span>() {
+  <span class="comment">// Create animated color</span>
+  <span class="keyword">vec3</span> color = <span class="keyword">vec3</span>(
+    <span class="function">sin</span>(time),
+    <span class="function">cos</span>(time),
+    <span class="string">0.5</span>
+  );
+
+  gl_FragColor = <span class="keyword">vec4</span>(color, <span class="string">1.0</span>);
+}
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Portal Shader Effects</h3>
+
+                <p>Your portal will use shaders to create these effects:</p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 style="color: #3b82f6;">1. Fresnel Effect (Edge Glow)</h4>
+                        <p>Makes edges brighter when viewed at an angle - creates that glowing rim.</p>
+                        <div class="code-block">
+<span class="comment">// In fragment shader</span>
+<span class="keyword">float</span> fresnel = <span class="function">pow</span>(<span class="string">1.0</span> - <span class="function">dot</span>(normal, viewDirection), <span class="string">3.0</span>);
+<span class="comment">// fresnel = 0 when looking straight at surface</span>
+<span class="comment">// fresnel = 1 when looking at edge</span>
+
+<span class="keyword">vec3</span> glowColor = <span class="keyword">vec3</span>(<span class="string">0.0, 1.0, 1.0</span>); <span class="comment">// Cyan</span>
+color += glowColor * fresnel; <span class="comment">// Add glow to edges</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #3b82f6;">2. Noise Animation (Swirling Effect)</h4>
+                        <p>Noise functions create organic, flowing patterns.</p>
+                        <div class="code-block">
+<span class="comment">// Simplex noise function (you'll copy this from a library)</span>
+<span class="keyword">float</span> noise = <span class="function">snoise</span>(vUv * <span class="string">5.0</span> + time);
+
+<span class="comment">// Distort UVs to create swirling</span>
+<span class="keyword">vec2</span> distortedUV = vUv + noise * <span class="string">0.1</span>;
+
+<span class="comment">// Use distorted UVs for color</span>
+<span class="keyword">vec3</span> color = <span class="function">texture2D</span>(portalTexture, distortedUV).rgb;
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #3b82f6;">3. Time-Based Animation</h4>
+                        <p>Uniforms let you pass values from JavaScript to the shader.</p>
+                        <div class="code-block">
+<span class="comment">// In your React component:</span>
+<span class="function">useFrame</span>((state) =&gt; {
+  shaderRef.current.uniforms.time.value = state.clock.elapsedTime;
+});
+
+<span class="comment">// In your shader:</span>
+<span class="keyword">uniform float</span> time;
+
+<span class="keyword">void</span> <span class="function">main</span>() {
+  <span class="comment">// Animate color over time</span>
+  <span class="keyword">vec3</span> color = <span class="keyword">vec3</span>(
+    <span class="function">sin</span>(time) * <span class="string">0.5</span> + <span class="string">0.5</span>,
+    <span class="function">cos</span>(time) * <span class="string">0.5</span> + <span class="string">0.5</span>,
+    <span class="string">1.0</span>
+  );
+
+  gl_FragColor = <span class="keyword">vec4</span>(color, <span class="string">0.8</span>);
+}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> The entire visual magic of your portal comes from shaders. The swirling, glowing, animated effect is all GPU-powered shader code. Without shaders, you'd just have a boring flat circle.
+                </div>
+
+                <div class="visual-box">
+                    <h4>Shader Uniforms: JavaScript ↔ GPU Communication</h4>
+                    <div class="code-block">
+<span class="keyword">const</span> shaderMaterial = <span class="keyword">new</span> <span class="function">THREE.ShaderMaterial</span>({
+  uniforms: {
+    time: { value: <span class="string">0</span> },              <span class="comment">// Updates every frame</span>
+    color1: { value: <span class="keyword">new</span> <span class="function">THREE.Color</span>(<span class="string">'cyan'</span>) },
+    color2: { value: <span class="keyword">new</span> <span class="function">THREE.Color</span>(<span class="string">'magenta'</span>) }
+  },
+  vertexShader: vertexShaderCode,
+  fragmentShader: fragmentShaderCode
+});
+
+<span class="comment">// Update in render loop:</span>
+<span class="function">useFrame</span>((state) =&gt; {
+  shaderMaterial.uniforms.time.value = state.clock.elapsedTime;
+});
+                    </div>
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>Shaders run on the GPU for incredible performance</li>
+                        <li>Vertex shader = controls geometry position</li>
+                        <li>Fragment shader = controls pixel colors</li>
+                        <li>Uniforms let you pass data from JS to shaders</li>
+                        <li>Noise functions create organic, flowing effects</li>
+                        <li>Fresnel effect creates edge glow</li>
+                        <li>All the visual magic happens in shaders!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 5: COLLISION DETECTION -->
+            <div class="section" id="section-5">
+                <h2>
+                    <span class="concept-number">5</span>
+                    Collision Detection: Triggering Teleportation
+                </h2>
+
+                <p>How do we know when the player has entered a portal? We check the distance between player and portal every frame.</p>
+
+                <div class="visual-box">
+                    <canvas id="collisionCanvas" width="600" height="400"></canvas>
+                    <div class="interactive-demo">
+                        <p><strong>Distance-Based Collision</strong></p>
+                        <p>The green circle is the "trigger zone" - when player enters, teleport!</p>
+                        <button onclick="movePlayerToPortal()">Move Player to Portal</button>
+                        <button onclick="resetPlayerPosition()">Reset Position</button>
+                        <p id="collisionInfo" style="margin-top: 10px; font-weight: bold;"></p>
+                    </div>
+                </div>
+
+                <h3>The Algorithm</h3>
+
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">PortalPair</span>({ portalA, portalB }) {
+  <span class="keyword">const</span> playerRef = <span class="function">useRef</span>();
+  <span class="keyword">const</span> [cooldown, setCooldown] = <span class="function">useState</span>(<span class="string">false</span>);
+
+  <span class="function">useFrame</span>(() =&gt; {
+    <span class="keyword">if</span> (cooldown) <span class="keyword">return</span>; <span class="comment">// Prevent infinite loops</span>
+
+    <span class="comment">// 1. Get player position</span>
+    <span class="keyword">const</span> playerPos = playerRef.current.position;
+
+    <span class="comment">// 2. Calculate distance to Portal A</span>
+    <span class="keyword">const</span> distanceToA = playerPos.<span class="function">distanceTo</span>(portalA.position);
+
+    <span class="comment">// 3. Check if close enough to trigger</span>
+    <span class="keyword">if</span> (distanceToA &lt; <span class="string">2.0</span>) { <span class="comment">// Within 2 meters</span>
+      <span class="comment">// 4. TELEPORT!</span>
+      <span class="function">teleportPlayer</span>(playerRef.current, portalA, portalB);
+
+      <span class="comment">// 5. Start cooldown to prevent re-trigger</span>
+      <span class="function">setCooldown</span>(<span class="string">true</span>);
+      <span class="function">setTimeout</span>(() =&gt; <span class="function">setCooldown</span>(<span class="string">false</span>), <span class="string">1000</span>); <span class="comment">// 1 second</span>
+    }
+
+    <span class="comment">// Repeat for Portal B...</span>
+  });
+
+  <span class="keyword">return</span> &lt;&gt;...&lt;/&gt;;
+}
+                </div>
+
+                <h3>Cooldown System: Preventing Infinite Loops</h3>
+
+                <div class="visual-box">
+                    <p><strong>Problem:</strong> Without a cooldown, you'd teleport back and forth infinitely!</p>
+                    <div style="background: #fee2e2; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ef4444;">
+                        <p style="color: #991b1b;"><strong>❌ Without Cooldown:</strong></p>
+                        <p>Enter Portal A → Teleport to Portal B → Still too close → Teleport back to Portal A → Still too close → ...</p>
+                    </div>
+                    <div style="background: #dcfce7; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #10b981;">
+                        <p style="color: #065f46;"><strong>✅ With Cooldown:</strong></p>
+                        <p>Enter Portal A → Teleport to Portal B → Cooldown active (1 second) → Walk away → Cooldown ends → Can teleport again</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> Collision detection runs 60 times per second in useFrame. You need it to be fast and reliable. Distance checks are very efficient and work perfectly for circular trigger zones.
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>Check collision in useFrame (every frame)</li>
+                        <li>Use distanceTo() to calculate distance between player and portal</li>
+                        <li>Trigger teleport when distance < threshold (2 meters)</li>
+                        <li>ALWAYS implement cooldown to prevent infinite loops</li>
+                        <li>Cooldown duration: ~1 second is good</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 6: TRANSFORMATIONS -->
+            <div class="section" id="section-6">
+                <h2>
+                    <span class="concept-number">6</span>
+                    3D Transformations: Teleporting Correctly
+                </h2>
+
+                <p>When you teleport, you need to calculate the NEW position and rotation. This involves some 3D math, but don't worry - Three.js has helper functions.</p>
+
+                <h3>Position Mirroring</h3>
+
+                <p>The idea: If you enter Portal A from the left side, you should exit Portal B from the corresponding side.</p>
+
+                <div class="visual-box">
+                    <canvas id="transformCanvas" width="600" height="400"></canvas>
+                    <div class="interactive-demo">
+                        <p><strong>Relative Position Calculation</strong></p>
+                        <p>Your position relative to Portal A becomes your position relative to Portal B</p>
+                        <button onclick="demonstrateTeleport()">Demonstrate Teleport</button>
+                        <p id="transformInfo" style="margin-top: 10px; font-family: monospace;"></p>
+                    </div>
+                </div>
+
+                <h3>The Teleport Function</h3>
+
+                <div class="code-block">
+<span class="keyword">function</span> <span class="function">teleportPlayer</span>(player, fromPortal, toPortal) {
+  <span class="comment">// 1. Calculate relative position to entry portal</span>
+  <span class="keyword">const</span> relativePos = <span class="keyword">new</span> <span class="function">THREE.Vector3</span>();
+  relativePos.<span class="function">subVectors</span>(
+    player.position,      <span class="comment">// Player position</span>
+    fromPortal.position   <span class="comment">// Portal A position</span>
+  );
+  <span class="comment">// relativePos = how far from portal center you are</span>
+
+  <span class="comment">// 2. Mirror the Z component (flip forward/backward)</span>
+  relativePos.z *= <span class="string">-1</span>;
+
+  <span class="comment">// 3. Apply to destination portal</span>
+  player.position.<span class="function">addVectors</span>(
+    toPortal.position,    <span class="comment">// Portal B position</span>
+    relativePos           <span class="comment">// Your relative offset</span>
+  );
+
+  <span class="comment">// 4. Flip camera rotation 180 degrees</span>
+  player.rotation.y += Math.PI; <span class="comment">// PI radians = 180°</span>
+
+  <span class="comment">// 5. Trigger particle effects</span>
+  <span class="function">spawnTeleportParticles</span>(toPortal.position);
+}
+                </div>
+
+                <h3>Rotation Transformation</h3>
+
+                <div class="visual-box">
+                    <p>When you teleport, your camera rotates 180° so you're facing AWAY from the destination portal (not back into it).</p>
+                    <div class="grid-2" style="margin-top: 20px;">
+                        <div style="background: #fee2e2; padding: 15px; border-radius: 8px; text-align: center;">
+                            <p style="color: #991b1b; font-weight: bold; margin-bottom: 10px;">Before Teleport</p>
+                            <p style="font-size: 3em;">👤➡️🌀</p>
+                            <p>Facing Portal A</p>
+                        </div>
+                        <div style="background: #dcfce7; padding: 15px; border-radius: 8px; text-align: center;">
+                            <p style="color: #065f46; font-weight: bold; margin-bottom: 10px;">After Teleport</p>
+                            <p style="font-size: 3em;">🌀⬅️👤</p>
+                            <p>Facing away from Portal B</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Why Flip 180°?</h3>
+
+                <div class="code-block">
+<span class="comment">// Without rotation flip:</span>
+<span class="comment">// You walk forward into Portal A → Appear at Portal B → Still facing forward</span>
+<span class="comment">// But now "forward" means BACK INTO Portal B → Instant re-teleport!</span>
+
+<span class="comment">// With 180° rotation:</span>
+<span class="comment">// You walk forward into Portal A → Appear at Portal B → Facing backward</span>
+<span class="comment">// Now you walk forward AWAY from Portal B → Perfect! ✅</span>
+
+player.rotation.y += Math.PI; <span class="comment">// Flip 180 degrees</span>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> This is the CORE of teleportation. Getting the math right makes it feel seamless. Getting it wrong makes it disorienting and broken.
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>Calculate relative position: player.pos - portal.pos</li>
+                        <li>Mirror the Z component (relativePos.z *= -1)</li>
+                        <li>Add relative position to destination portal</li>
+                        <li>Rotate camera 180° (rotation.y += Math.PI)</li>
+                        <li>This ensures you exit facing away from destination</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION 7: PERFORMANCE -->
+            <div class="section" id="section-7">
+                <h2>
+                    <span class="concept-number">7</span>
+                    Performance: Keeping 60 FPS
+                </h2>
+
+                <p>Your portal needs to run at 60 FPS for smooth gameplay. Here are the critical performance rules.</p>
+
+                <h3>The Golden Rules</h3>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4 style="color: #10b981;">✅ DO: Reuse Geometry & Materials</h4>
+                        <div class="code-block">
+<span class="comment">// Create ONCE, use many times</span>
+<span class="keyword">const</span> portalGeometry = <span class="function">useMemo</span>(
+  () =&gt; <span class="keyword">new</span> <span class="function">THREE.CircleGeometry</span>(<span class="string">2, 64</span>),
+  []
+);
+
+<span class="keyword">const</span> shaderMaterial = <span class="function">useMemo</span>(
+  () =&gt; <span class="keyword">new</span> <span class="function">THREE.ShaderMaterial</span>({ <span class="comment">/* ... */</span> }),
+  []
+);
+
+<span class="comment">// Both portals share the same geometry/material</span>
+&lt;<span class="keyword">mesh</span> geometry={portalGeometry} material={shaderMaterial} /&gt;
+&lt;<span class="keyword">mesh</span> geometry={portalGeometry} material={shaderMaterial} /&gt;
+                        </div>
+                        <p style="color: #065f46; margin-top: 10px;"><strong>Result:</strong> GPU only has to store geometry ONCE, not twice!</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #ef4444;">❌ DON'T: Create Objects in useFrame</h4>
+                        <div class="code-block">
+<span class="comment">// ❌ BAD - Creates new Vector3 every frame (60 times/sec!)</span>
+<span class="function">useFrame</span>(() =&gt; {
+  <span class="keyword">const</span> temp = <span class="keyword">new</span> <span class="function">THREE.Vector3</span>(); <span class="comment">// NEVER DO THIS</span>
+  temp.<span class="function">copy</span>(player.position);
+});
+
+<span class="comment">// ✅ GOOD - Create once, reuse forever</span>
+<span class="keyword">const</span> tempVector = <span class="function">useMemo</span>(() =&gt; <span class="keyword">new</span> <span class="function">THREE.Vector3</span>(), []);
+
+<span class="function">useFrame</span>(() =&gt; {
+  tempVector.<span class="function">copy</span>(player.position); <span class="comment">// Reuse same object</span>
+});
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #ef4444;">❌ DON'T: Use setState in useFrame</h4>
+                        <div class="code-block">
+<span class="comment">// ❌ BAD - React re-render is too slow for 60fps</span>
+<span class="function">useFrame</span>(() =&gt; {
+  <span class="function">setRotation</span>(prev =&gt; prev + <span class="string">0.01</span>); <span class="comment">// Routes through React!</span>
+});
+
+<span class="comment">// ✅ GOOD - Direct mutation bypasses React</span>
+<span class="function">useFrame</span>(() =&gt; {
+  meshRef.current.rotation.y += <span class="string">0.01</span>; <span class="comment">// Direct to GPU</span>
+});
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4 style="color: #10b981;">✅ DO: Monitor Performance</h4>
+                        <div class="code-block">
+<span class="keyword">import</span> { Perf } <span class="keyword">from</span> <span class="string">'r3f-perf'</span>;
+
+&lt;<span class="keyword">Canvas</span>&gt;
+  {process.env.NODE_ENV === <span class="string">'development'</span> && &lt;<span class="keyword">Perf</span> /&gt;}
+  <span class="comment">{/* Your scene */}</span>
+&lt;/<span class="keyword">Canvas</span>&gt;
+                        </div>
+                        <p style="color: #065f46; margin-top: 10px;"><strong>Shows:</strong> FPS, draw calls, triangles, memory</p>
+                    </div>
+                </div>
+
+                <h3>Performance Targets</h3>
+
+                <div class="visual-box">
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <div style="background: #dcfce7; padding: 20px; border-radius: 8px; text-align: center;">
+                            <p style="font-size: 3em; color: #10b981; font-weight: bold;">60</p>
+                            <p style="color: #065f46; font-weight: bold;">FPS Minimum</p>
+                        </div>
+                        <div style="background: #dbeafe; padding: 20px; border-radius: 8px; text-align: center;">
+                            <p style="font-size: 3em; color: #3b82f6; font-weight: bold;">&lt;100</p>
+                            <p style="color: #1e40af; font-weight: bold;">Draw Calls</p>
+                        </div>
+                        <div style="background: #fef3c7; padding: 20px; border-radius: 8px; text-align: center;">
+                            <p style="font-size: 3em; color: #f59e0b; font-weight: bold;">&lt;50k</p>
+                            <p style="color: #92400e; font-weight: bold;">Triangles</p>
+                        </div>
+                        <div style="background: #f3e8ff; padding: 20px; border-radius: 8px; text-align: center;">
+                            <p style="font-size: 3em; color: #a855f7; font-weight: bold;">&lt;500ms</p>
+                            <p style="color: #6b21a8; font-weight: bold;">Shader Compile</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Why This Matters for Portals:</strong> Your portal shader will be expensive (noise functions, Fresnel, etc.). You MUST optimize everything else to maintain 60 FPS.
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Key Takeaway</h3>
+                    <ul>
+                        <li>Reuse geometry/materials with useMemo()</li>
+                        <li>NEVER create objects in useFrame</li>
+                        <li>NEVER setState in useFrame - use refs</li>
+                        <li>Target: 60 FPS, <100 draw calls</li>
+                        <li>Use r3f-perf to monitor performance</li>
+                        <li>Profile early and often!</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- FINAL SECTION: PUTTING IT ALL TOGETHER -->
+            <div class="section" id="section-8">
+                <h2>
+                    <span class="concept-number">8</span>
+                    Putting It All Together
+                </h2>
+
+                <p>Now you understand all the pieces. Let's see how they fit together in the portal system.</p>
+
+                <div class="portal-preview"></div>
+
+                <h3>The Complete Flow</h3>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h4>1. Render Loop (useFrame)</h4>
+                        <p>Every frame (60 times/sec), check if player is near a portal</p>
+                        <div class="code-block" style="font-size: 0.85em;">
+<span class="function">useFrame</span>((state) =&gt; {
+  <span class="comment">// Update shader animation</span>
+  shaderRef.current.uniforms.time.value = state.clock.elapsedTime;
+
+  <span class="comment">// Check collision</span>
+  <span class="keyword">const</span> distance = playerPos.<span class="function">distanceTo</span>(portalAPos);
+  <span class="keyword">if</span> (distance &lt; <span class="string">2.0</span> && !cooldown) {
+    <span class="function">handleTeleport</span>();
+  }
+});
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>2. Collision Detected</h4>
+                        <p>Player is within 2 meters of portal center</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>3. Calculate Relative Position</h4>
+                        <p>Where is the player relative to the entry portal?</p>
+                        <div class="code-block" style="font-size: 0.85em;">
+<span class="keyword">const</span> relativePos = playerPos - portalAPos;
+<span class="comment">// Result: [1, 0, -0.5] = slightly left, same height, just in front</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>4. Mirror & Transform</h4>
+                        <p>Flip Z coordinate and add to destination portal</p>
+                        <div class="code-block" style="font-size: 0.85em;">
+relativePos.z *= <span class="string">-1</span>;  <span class="comment">// Mirror depth</span>
+newPos = portalBPos + relativePos;  <span class="comment">// New position!</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>5. Rotate Camera</h4>
+                        <p>Turn 180° so you face away from destination</p>
+                        <div class="code-block" style="font-size: 0.85em;">
+camera.rotation.y += Math.PI;  <span class="comment">// 180 degree turn</span>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>6. Start Cooldown</h4>
+                        <p>Prevent re-triggering for 1 second</p>
+                        <div class="code-block" style="font-size: 0.85em;">
+<span class="function">setCooldown</span>(<span class="string">true</span>);
+<span class="function">setTimeout</span>(() =&gt; <span class="function">setCooldown</span>(<span class="string">false</span>), <span class="string">1000</span>);
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h4>7. Visual Effects</h4>
+                        <p>Spawn particles, screen shake, etc.</p>
+                        <div class="code-block" style="font-size: 0.85em;">
+<span class="function">spawnParticles</span>(portalBPos, <span class="string">100</span>);  <span class="comment">// Cyan burst</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Technology Stack Summary</h3>
+
+                <div class="visual-box">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 8px;">
+                            <h4 style="color: white; margin-bottom: 10px;">React Three Fiber</h4>
+                            <p style="font-size: 0.9em;">JSX for 3D scenes, useFrame hook, component structure</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; padding: 20px; border-radius: 8px;">
+                            <h4 style="color: white; margin-bottom: 10px;">Three.js Math</h4>
+                            <p style="font-size: 0.9em;">Vector3, distance calculations, transformations</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 20px; border-radius: 8px;">
+                            <h4 style="color: white; margin-bottom: 10px;">GLSL Shaders</h4>
+                            <p style="font-size: 0.9em;">Vertex & fragment shaders, uniforms, noise functions</p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; padding: 20px; border-radius: 8px;">
+                            <h4 style="color: white; margin-bottom: 10px;">Game Logic</h4>
+                            <p style="font-size: 0.9em;">Collision detection, cooldowns, state management</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="key-takeaway">
+                    <h3>Final Checklist - You Now Understand:</h3>
+                    <ul>
+                        <li>✅ 3D coordinate systems (X, Y, Z axes)</li>
+                        <li>✅ Vectors for direction, distance, and movement</li>
+                        <li>✅ React Three Fiber basics (Canvas, useFrame, refs)</li>
+                        <li>✅ Shaders for visual effects (vertex + fragment)</li>
+                        <li>✅ Collision detection (distance-based triggers)</li>
+                        <li>✅ 3D transformations (position mirroring, rotation)</li>
+                        <li>✅ Performance optimization (reuse, no setState in loops)</li>
+                        <li>✅ How all pieces combine into a portal system</li>
+                    </ul>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 40px; border-radius: 10px; text-align: center; margin-top: 40px;">
+                    <h2 style="color: white; font-size: 2.5em; margin-bottom: 20px;">🎉 You're Ready!</h2>
+                    <p style="font-size: 1.3em; line-height: 1.8;">You now have all the prerequisite knowledge needed to build an awesome portal teleportation system. Start with the basic structure, add the shader effects, implement collision detection, and polish with particles and post-processing.</p>
+                    <p style="font-size: 1.1em; margin-top: 20px; opacity: 0.9;">Good luck, and have fun building! 🚀</p>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑ Back to Top</button>
+                <button onclick="alert('Tutorial Complete! Check out the PRD.md to start building.')">Start Building →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SCROLL PROGRESS BAR
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const progress = (scrollTop / scrollHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // COORDINATE SYSTEM CANVAS
+        const coordCanvas = document.getElementById('coordinateCanvas');
+        const coordCtx = coordCanvas.getContext('2d');
+
+        function drawCoordinateSystem() {
+            coordCtx.fillStyle = '#1e293b';
+            coordCtx.fillRect(0, 0, 600, 400);
+
+            const centerX = 300;
+            const centerY = 200;
+
+            // Draw grid
+            coordCtx.strokeStyle = '#334155';
+            coordCtx.lineWidth = 1;
+            for (let i = 0; i < 600; i += 40) {
+                coordCtx.beginPath();
+                coordCtx.moveTo(i, 0);
+                coordCtx.lineTo(i, 400);
+                coordCtx.stroke();
+            }
+            for (let i = 0; i < 400; i += 40) {
+                coordCtx.beginPath();
+                coordCtx.moveTo(0, i);
+                coordCtx.lineTo(600, i);
+                coordCtx.stroke();
+            }
+
+            // X axis (red)
+            coordCtx.strokeStyle = '#ef4444';
+            coordCtx.lineWidth = 3;
+            coordCtx.beginPath();
+            coordCtx.moveTo(50, centerY);
+            coordCtx.lineTo(550, centerY);
+            coordCtx.stroke();
+
+            // Arrow
+            coordCtx.fillStyle = '#ef4444';
+            coordCtx.beginPath();
+            coordCtx.moveTo(550, centerY);
+            coordCtx.lineTo(540, centerY - 8);
+            coordCtx.lineTo(540, centerY + 8);
+            coordCtx.fill();
+
+            // Label
+            coordCtx.font = 'bold 20px sans-serif';
+            coordCtx.fillText('X', 560, centerY + 5);
+
+            // Y axis (green)
+            coordCtx.strokeStyle = '#10b981';
+            coordCtx.lineWidth = 3;
+            coordCtx.beginPath();
+            coordCtx.moveTo(centerX, 350);
+            coordCtx.lineTo(centerX, 50);
+            coordCtx.stroke();
+
+            // Arrow
+            coordCtx.fillStyle = '#10b981';
+            coordCtx.beginPath();
+            coordCtx.moveTo(centerX, 50);
+            coordCtx.lineTo(centerX - 8, 60);
+            coordCtx.lineTo(centerX + 8, 60);
+            coordCtx.fill();
+
+            // Label
+            coordCtx.fillText('Y', centerX + 10, 40);
+
+            // Z axis (blue) - diagonal for 3D effect
+            coordCtx.strokeStyle = '#3b82f6';
+            coordCtx.lineWidth = 3;
+            coordCtx.beginPath();
+            coordCtx.moveTo(centerX - 100, centerY + 100);
+            coordCtx.lineTo(centerX + 100, centerY - 100);
+            coordCtx.stroke();
+
+            // Arrow
+            coordCtx.fillStyle = '#3b82f6';
+            coordCtx.beginPath();
+            coordCtx.moveTo(centerX + 100, centerY - 100);
+            coordCtx.lineTo(centerX + 92, centerY - 94);
+            coordCtx.lineTo(coordX + 94, centerY - 86);
+            coordCtx.fill();
+
+            // Label
+            coordCtx.fillText('Z', centerX + 110, centerY - 110);
+
+            // Origin
+            coordCtx.fillStyle = '#ffffff';
+            coordCtx.beginPath();
+            coordCtx.arc(centerX, centerY, 6, 0, Math.PI * 2);
+            coordCtx.fill();
+
+            coordCtx.fillStyle = '#ffffff';
+            coordCtx.font = 'bold 16px sans-serif';
+            coordCtx.fillText('(0, 0, 0)', centerX + 15, centerY + 20);
+
+            // Example point
+            const exX = centerX + 120;
+            const exY = centerY - 80;
+            coordCtx.fillStyle = '#f59e0b';
+            coordCtx.beginPath();
+            coordCtx.arc(exX, exY, 8, 0, Math.PI * 2);
+            coordCtx.fill();
+
+            coordCtx.fillStyle = '#fbbf24';
+            coordCtx.fillText('Portal (3, 2, 1)', exX + 15, exY - 10);
+
+            // Dashed lines to axes
+            coordCtx.setLineDash([5, 5]);
+            coordCtx.strokeStyle = '#64748b';
+            coordCtx.lineWidth = 1;
+            coordCtx.beginPath();
+            coordCtx.moveTo(exX, exY);
+            coordCtx.lineTo(exX, centerY);
+            coordCtx.stroke();
+            coordCtx.beginPath();
+            coordCtx.moveTo(exX, centerY);
+            coordCtx.lineTo(centerX, centerY);
+            coordCtx.stroke();
+            coordCtx.setLineDash([]);
+        }
+
+        drawCoordinateSystem();
+
+        // VECTOR CANVAS
+        const vecCanvas = document.getElementById('vectorCanvas');
+        const vecCtx = vecCanvas.getContext('2d');
+        let vectors = [];
+
+        function drawVectorCanvas() {
+            vecCtx.fillStyle = '#1e293b';
+            vecCtx.fillRect(0, 0, 600, 400);
+
+            const centerX = 300;
+            const centerY = 200;
+
+            // Grid
+            vecCtx.strokeStyle = '#334155';
+            vecCtx.lineWidth = 1;
+            for (let i = 0; i < 600; i += 40) {
+                vecCtx.beginPath();
+                vecCtx.moveTo(i, 0);
+                vecCtx.lineTo(i, 400);
+                vecCtx.stroke();
+            }
+            for (let i = 0; i < 400; i += 40) {
+                vecCtx.beginPath();
+                vecCtx.moveTo(0, i);
+                vecCtx.lineTo(600, i);
+                vecCtx.stroke();
+            }
+
+            // Origin
+            vecCtx.fillStyle = '#ffffff';
+            vecCtx.beginPath();
+            vecCtx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+            vecCtx.fill();
+
+            // Draw vectors
+            vectors.forEach((vec, idx) => {
+                const endX = centerX + vec.x;
+                const endY = centerY - vec.y; // Flip Y for canvas coords
+
+                // Vector line
+                vecCtx.strokeStyle = vec.color;
+                vecCtx.lineWidth = 3;
+                vecCtx.beginPath();
+                vecCtx.moveTo(centerX, centerY);
+                vecCtx.lineTo(endX, endY);
+                vecCtx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(vec.y, vec.x);
+                vecCtx.fillStyle = vec.color;
+                vecCtx.beginPath();
+                vecCtx.moveTo(endX, endY);
+                vecCtx.lineTo(
+                    endX - 15 * Math.cos(angle - Math.PI / 6),
+                    endY + 15 * Math.sin(angle - Math.PI / 6)
+                );
+                vecCtx.lineTo(
+                    endX - 15 * Math.cos(angle + Math.PI / 6),
+                    endY + 15 * Math.sin(angle + Math.PI / 6)
+                );
+                vecCtx.fill();
+
+                // Label
+                vecCtx.fillStyle = '#ffffff';
+                vecCtx.font = 'bold 14px sans-serif';
+                vecCtx.fillText(
+                    `v${idx + 1}`,
+                    endX + 10,
+                    endY - 10
+                );
+            });
+        }
+
+        function addRandomVector() {
+            const colors = ['#ef4444', '#10b981', '#3b82f6', '#f59e0b', '#a855f7'];
+            vectors.push({
+                x: (Math.random() - 0.5) * 200,
+                y: (Math.random() - 0.5) * 200,
+                color: colors[Math.floor(Math.random() * colors.length)]
+            });
+
+            if (vectors.length > 5) vectors.shift();
+
+            drawVectorCanvas();
+
+            const info = document.getElementById('vectorInfo');
+            const lastVec = vectors[vectors.length - 1];
+            const length = Math.sqrt(lastVec.x ** 2 + lastVec.y ** 2).toFixed(1);
+            info.textContent = `Vector added! Direction: (${lastVec.x.toFixed(0)}, ${lastVec.y.toFixed(0)}) | Length: ${length}`;
+        }
+
+        function clearVectors() {
+            vectors = [];
+            drawVectorCanvas();
+            document.getElementById('vectorInfo').textContent = 'Click "Add Random Vector" to see vectors in action!';
+        }
+
+        drawVectorCanvas();
+
+        // COLLISION CANVAS
+        const collCanvas = document.getElementById('collisionCanvas');
+        const collCtx = collCanvas.getContext('2d');
+        let playerX = 100;
+        let playerY = 200;
+        const portalX = 500;
+        const portalY = 200;
+        const triggerRadius = 80;
+        let isColliding = false;
+
+        function drawCollisionCanvas() {
+            collCtx.fillStyle = '#1e293b';
+            collCtx.fillRect(0, 0, 600, 400);
+
+            // Portal
+            collCtx.fillStyle = '#764ba2';
+            collCtx.beginPath();
+            collCtx.arc(portalX, portalY, 40, 0, Math.PI * 2);
+            collCtx.fill();
+
+            // Trigger zone
+            collCtx.strokeStyle = isColliding ? '#10b981' : '#334155';
+            collCtx.lineWidth = 3;
+            collCtx.setLineDash([10, 5]);
+            collCtx.beginPath();
+            collCtx.arc(portalX, portalY, triggerRadius, 0, Math.PI * 2);
+            collCtx.stroke();
+            collCtx.setLineDash([]);
+
+            // Player
+            collCtx.fillStyle = isColliding ? '#10b981' : '#ef4444';
+            collCtx.beginPath();
+            collCtx.arc(playerX, playerY, 20, 0, Math.PI * 2);
+            collCtx.fill();
+
+            // Distance line
+            collCtx.strokeStyle = '#64748b';
+            collCtx.lineWidth = 2;
+            collCtx.beginPath();
+            collCtx.moveTo(playerX, playerY);
+            collCtx.lineTo(portalX, portalY);
+            collCtx.stroke();
+
+            // Distance text
+            const distance = Math.sqrt((portalX - playerX) ** 2 + (portalY - playerY) ** 2);
+            collCtx.fillStyle = '#ffffff';
+            collCtx.font = 'bold 16px sans-serif';
+            collCtx.fillText(
+                `Distance: ${distance.toFixed(0)}px`,
+                (playerX + portalX) / 2 - 60,
+                (playerY + portalY) / 2 - 10
+            );
+
+            // Labels
+            collCtx.fillText('Player', playerX - 25, playerY - 30);
+            collCtx.fillText('Portal', portalX - 25, portalY - 50);
+
+            // Update collision info
+            isColliding = distance < triggerRadius;
+            const info = document.getElementById('collisionInfo');
+            if (isColliding) {
+                info.textContent = '✅ COLLISION! Teleport triggered!';
+                info.style.color = '#10b981';
+            } else {
+                info.textContent = `❌ No collision (need ${(triggerRadius - distance).toFixed(0)}px closer)`;
+                info.style.color = '#ef4444';
+            }
+        }
+
+        function movePlayerToPortal() {
+            const interval = setInterval(() => {
+                const dx = portalX - playerX;
+                const dy = portalY - playerY;
+                const distance = Math.sqrt(dx ** 2 + dy ** 2);
+
+                if (distance < 5) {
+                    clearInterval(interval);
+                    return;
+                }
+
+                playerX += dx * 0.05;
+                playerY += dy * 0.05;
+                drawCollisionCanvas();
+            }, 16);
+        }
+
+        function resetPlayerPosition() {
+            playerX = 100;
+            playerY = 200;
+            drawCollisionCanvas();
+        }
+
+        drawCollisionCanvas();
+
+        // TRANSFORMATION CANVAS
+        const transCanvas = document.getElementById('transformCanvas');
+        const transCtx = transCanvas.getContext('2d');
+        const portalAX = 150;
+        const portalAY = 200;
+        const portalBX = 450;
+        const portalBY = 200;
+        let demoPlayerX = 100;
+        let demoPlayerY = 180;
+
+        function drawTransformCanvas() {
+            transCtx.fillStyle = '#1e293b';
+            transCtx.fillRect(0, 0, 600, 400);
+
+            // Portal A
+            transCtx.fillStyle = '#3b82f6';
+            transCtx.beginPath();
+            transCtx.arc(portalAX, portalAY, 40, 0, Math.PI * 2);
+            transCtx.fill();
+            transCtx.fillStyle = '#ffffff';
+            transCtx.font = 'bold 16px sans-serif';
+            transCtx.fillText('Portal A', portalAX - 30, portalAY + 60);
+
+            // Portal B
+            transCtx.fillStyle = '#f59e0b';
+            transCtx.beginPath();
+            transCtx.arc(portalBX, portalBY, 40, 0, Math.PI * 2);
+            transCtx.fill();
+            transCtx.fillStyle = '#ffffff';
+            transCtx.fillText('Portal B', portalBX - 30, portalBY + 60);
+
+            // Player
+            transCtx.fillStyle = '#10b981';
+            transCtx.beginPath();
+            transCtx.arc(demoPlayerX, demoPlayerY, 15, 0, Math.PI * 2);
+            transCtx.fill();
+
+            // Relative position indicator
+            transCtx.strokeStyle = '#64748b';
+            transCtx.setLineDash([5, 5]);
+            transCtx.beginPath();
+            transCtx.moveTo(demoPlayerX, demoPlayerY);
+            transCtx.lineTo(demoPlayerX, portalAY);
+            transCtx.stroke();
+            transCtx.beginPath();
+            transCtx.moveTo(demoPlayerX, portalAY);
+            transCtx.lineTo(portalAX, portalAY);
+            transCtx.stroke();
+            transCtx.setLineDash([]);
+
+            // Update info
+            const relX = demoPlayerX - portalAX;
+            const relY = demoPlayerY - portalAY;
+            const info = document.getElementById('transformInfo');
+            info.textContent = `Relative Position: (${relX.toFixed(0)}, ${relY.toFixed(0)})`;
+        }
+
+        function demonstrateTeleport() {
+            const relX = demoPlayerX - portalAX;
+            const relY = demoPlayerY - portalAY;
+
+            // Teleport
+            demoPlayerX = portalBX + relX;
+            demoPlayerY = portalBY + relY;
+
+            drawTransformCanvas();
+
+            setTimeout(() => {
+                document.getElementById('transformInfo').textContent += ' → Teleported!';
+            }, 100);
+
+            setTimeout(() => {
+                demoPlayerX = 100;
+                demoPlayerY = 180;
+                drawTransformCanvas();
+            }, 2000);
+        }
+
+        drawTransformCanvas();
+    </script>
+</body>
+</html>
